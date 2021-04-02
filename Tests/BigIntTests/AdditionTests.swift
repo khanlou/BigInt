@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import BigInt
+import BigInt
 
 class AdditionTests: XCTestCase {
 

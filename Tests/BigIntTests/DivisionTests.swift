@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import BigInt
+import BigInt
 
 class DivisionTests: XCTestCase {
     
@@ -17,7 +17,6 @@ class DivisionTests: XCTestCase {
         let d3 = d1 / 2
 
         XCTAssertEqual(d3.description, "50")
-        XCTAssertEqual(d3.sign, .positive)
     }
 
     func testDivisionWithRemainder() {
