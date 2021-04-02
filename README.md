@@ -1,3 +1,3 @@
 # BigInt
 
-A description of this package.
+An infinite width integer for Swift. Not ready for any kind of production.
