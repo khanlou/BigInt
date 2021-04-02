@@ -12,7 +12,7 @@ enum Sign {
     }
 }
 
-struct BigInt: CustomStringConvertible {
+public struct BigInt: CustomStringConvertible {
 
     var words: [UInt8] = []
 
@@ -27,7 +27,7 @@ struct BigInt: CustomStringConvertible {
         self.init(words: [uint8], sign: .positive)
     }
 
-    init(_ int: Int) {
+    public init(_ int: Int) {
         var parsing = int < 0 ? -int : int
         let max = Int(UInt8.max) + 1
 
@@ -43,7 +43,7 @@ struct BigInt: CustomStringConvertible {
         self = BigInt(words: words, sign: sign)
     }
 
-    init?(_ string: String) {
+    public init?(_ string: String) {
         var accumulator = Self.init(uint8: 0)
         let ints = string.map({ UInt8(String($0)) })
         for int in ints {
@@ -55,17 +55,17 @@ struct BigInt: CustomStringConvertible {
         self = accumulator
     }
 
-    mutating func normalizeTrailingZeros(_ n: Int) {
+    private mutating func normalizeTrailingZeros(_ n: Int) {
         while words.count < n {
             self.words.append(0)
         }
     }
 
-    mutating func cleanUpTrailingZeros() {
+    private mutating func cleanUpTrailingZeros() {
         while words.last == 0 { words.removeLast() }
     }
 
-    static func + (lhs: BigInt, rhs: BigInt) -> BigInt {
+    public static func + (lhs: BigInt, rhs: BigInt) -> BigInt {
         var lhsCopy = lhs
         var rhsCopy = rhs
 
@@ -110,7 +110,7 @@ struct BigInt: CustomStringConvertible {
         return BigInt(words: newWords, sign: newSign)
     }
 
-    static func - (lhs: BigInt, rhs: BigInt) -> BigInt {
+    public static func - (lhs: BigInt, rhs: BigInt) -> BigInt {
 
         var newWords: [UInt8] = []
         newWords.reserveCapacity(max(rhs.words.count, lhs.words.count))
@@ -133,7 +133,7 @@ struct BigInt: CustomStringConvertible {
         return BigInt(words: newWords, sign: .positive)
     }
 
-    static func * (lhs: BigInt, rhs: BigInt) -> BigInt {
+    public static func * (lhs: BigInt, rhs: BigInt) -> BigInt {
 
         let newSign: Sign
         switch (lhs.sign, rhs.sign) {
@@ -174,11 +174,11 @@ struct BigInt: CustomStringConvertible {
     }
 
     // single word division only
-    static func / (dividend: BigInt, divisor: UInt8) -> BigInt {
+    public static func / (dividend: BigInt, divisor: UInt8) -> BigInt {
         return dividend.divide(by: divisor).value
     }
 
-    func divide(by divisor: UInt8) -> (value: BigInt, remainder: UInt8) {
+    public func divide(by divisor: UInt8) -> (value: BigInt, remainder: UInt8) {
         var newWords: [UInt8] = []
 
         var previousRemainder: UInt8 = 0
@@ -194,7 +194,7 @@ struct BigInt: CustomStringConvertible {
         return (BigInt(words: newWords, sign: self.sign), previousRemainder)
     }
 
-    var description: String {
+    public var description: String {
         var string = ""
         var progress = self
         while true {
@@ -212,14 +212,14 @@ struct BigInt: CustomStringConvertible {
 }
 
 extension BigInt: Equatable {
-    static func == (lhs: BigInt, rhs: BigInt) -> Bool {
+    public static func == (lhs: BigInt, rhs: BigInt) -> Bool {
         // normalize trailing first
         return lhs.words == rhs.words && lhs.sign == rhs.sign
     }
 }
 
 extension BigInt: Comparable {
-    static func < (lhs: BigInt, rhs: BigInt) -> Bool {
+    public static func < (lhs: BigInt, rhs: BigInt) -> Bool {
         var lhsCopy = lhs
         var rhsCopy = rhs
         switch (lhsCopy.sign, rhsCopy.sign) {
