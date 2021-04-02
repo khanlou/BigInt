@@ -12,13 +12,12 @@ import XCTest
 class AdditionTests: XCTestCase {
 
     func testAddingTwoPositives() {
-        let d1 = BigInt(words: [1, 1, 1], sign: .positive)
-        let d2 = BigInt(words: [1, 1, 1, 1], sign: .positive)
+        let d1 = BigInt(65793)
+        let d2 = BigInt(16843009)
 
         let d3 = d1 + d2
 
-        XCTAssertEqual(d3.words, [2, 2, 2, 1])
-        XCTAssertEqual(d3.sign, .positive)
+        XCTAssertEqual(d3, BigInt(16908802))
     }
 
     func testAddingWithCarry() {

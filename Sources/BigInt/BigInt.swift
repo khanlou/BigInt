@@ -27,6 +27,20 @@ struct BigInt: CustomStringConvertible {
         self.init(words: [uint8], sign: .positive)
     }
 
+    init(_ int: Int) {
+        var parsing = int
+        let max = Int(UInt8.max) + 1
+
+        var words: [UInt8] = []
+        while parsing != 0 {
+            let remainder = parsing % max
+            words.append(UInt8(remainder))
+            parsing /= max
+        }
+
+        self = BigInt(words: words, sign: int < 0 ? .negative : .positive)
+    }
+
     init?(_ string: String) {
         var accumulator = Self.init(uint8: 0)
         let ints = string.map({ UInt8(String($0)) })
@@ -153,7 +167,6 @@ struct BigInt: CustomStringConvertible {
         }
 
         result.cleanUpTrailingZeros()
-
 
         return result
     }
