@@ -17,7 +17,7 @@ class MultiplicationTests: XCTestCase {
 
         let d3 = d1 * d2
 
-        XCTAssertEqual(d3.words, [100, 0])
+        XCTAssertEqual(d3.words, [100])
         XCTAssertEqual(d3.sign, .positive)
     }
 
@@ -58,8 +58,16 @@ class MultiplicationTests: XCTestCase {
 
         let d3 = d1 * d2
 
-        XCTAssertEqual(d3.description, "5450")
+        XCTAssertEqual(d3.words, [74, 21])
     }
 
+    func testMultiplyingOverflow2() {
+        let d1 = BigInt(words: [143, 2], sign: .positive)
+        let d2 = BigInt(words: [10], sign: .positive)
+
+        let d3 = d1 * d2
+
+        XCTAssertEqual(d3.description, "6550")
+    }
 
 }

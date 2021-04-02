@@ -45,6 +45,10 @@ struct BigInt: CustomStringConvertible {
         }
     }
 
+    mutating func cleanUpTrailingZeros() {
+        while words.last == 0 { words.removeLast() }
+    }
+
     static func + (lhs: BigInt, rhs: BigInt) -> BigInt {
         var lhsCopy = lhs
         var rhsCopy = rhs
@@ -92,15 +96,11 @@ struct BigInt: CustomStringConvertible {
 
     static func - (lhs: BigInt, rhs: BigInt) -> BigInt {
 
-        //handle signs
-        var lhsCopy = lhs
-        var rhsCopy = rhs
-
         var newWords: [UInt8] = []
-        newWords.reserveCapacity(max(rhsCopy.words.count, lhsCopy.words.count))
+        newWords.reserveCapacity(max(rhs.words.count, lhs.words.count))
 
         var shouldBorrow = false
-        for (lhsWord, rhsWord) in zip(lhsCopy.words, rhsCopy.words) {
+        for (lhsWord, rhsWord) in zip(lhs.words, rhs.words) {
 
             var (newWord, didUnderflow) = lhsWord.subtractingReportingOverflow(rhsWord)
             if shouldBorrow {
@@ -130,23 +130,32 @@ struct BigInt: CustomStringConvertible {
         var lhsCopy = lhs
         var rhsCopy = rhs
 
-        lhsCopy.normalizeTrailingZeros(rhsCopy.words.count + 1)
-        rhsCopy.normalizeTrailingZeros(lhsCopy.words.count + 1)
+        let maxLength = max(rhsCopy.words.count, lhsCopy.words.count) + 1
 
-        var newWords: [UInt8] = []
-        var previousHigh: UInt8 = 0
+        lhsCopy.normalizeTrailingZeros(maxLength)
+        rhsCopy.normalizeTrailingZeros(maxLength)
 
-        for (lhsWord, rhsWord) in zip(lhsCopy.words, rhsCopy.words) {
-            let (high, low) = lhsWord.multipliedFullWidth(by: rhsWord)
-            newWords.append(low + previousHigh) // what if this overflows
-            previousHigh = high
+        var result = BigInt(uint8: 0)
+        result.sign = newSign
+
+        for (place, lhsWord) in lhsCopy.words.enumerated() {
+            var previousHigh: UInt8 = 0
+            var runningSum: [UInt8] = .init(repeating: 0, count: place)
+            for rhsWord in rhsCopy.words {
+                let (high, low) = lhsWord.multipliedFullWidth(by: rhsWord)
+                runningSum.append(low + previousHigh) // what if this overflows
+                previousHigh = high
+            }
+            if previousHigh != 0 {
+                runningSum.append(previousHigh)
+            }
+            result = result + BigInt(words: runningSum, sign: newSign)
         }
 
-        if previousHigh != 0 {
-            newWords.append(previousHigh)
-        }
+        result.cleanUpTrailingZeros()
 
-        return BigInt(words: newWords, sign: newSign)
+
+        return result
     }
 
     // single word division only
@@ -165,7 +174,7 @@ struct BigInt: CustomStringConvertible {
             newWords.append(quotient)
         }
 
-        newWords = Array(newWords.drop(while: { $0 == 0 }))
+        newWords = newWords.drop(while: { $0 == 0 }).reversed()
 
         return (BigInt(words: newWords, sign: self.sign), previousRemainder)
     }

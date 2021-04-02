@@ -29,5 +29,14 @@ class DivisionTests: XCTestCase {
         XCTAssertEqual(d3.sign, .positive)
     }
 
+    func testDivisionWithRemainder2() {
+        let d1 = BigInt("6550")!
+
+        let d3 = d1 / UInt8(10)
+
+        XCTAssertEqual(d3.words, [143,2])
+        XCTAssertEqual(d3.sign, .positive)
+    }
+
 
 }

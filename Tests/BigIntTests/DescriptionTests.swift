@@ -17,10 +17,17 @@ class DescriptionTests: XCTestCase {
     }
 
     func testRoundTrip() throws {
-//        XCTAssertEqual(BigInt("1000")?.description, "1000")
+        XCTAssertEqual(BigInt("1000")?.description, "1000")
+        XCTAssertEqual(BigInt("1200")?.description, "1200")
+        XCTAssertEqual(BigInt("2000")?.description, "2000")
+        XCTAssertEqual(BigInt("53001")?.description, "53001")
+        XCTAssertEqual(BigInt("65530")?.description, "65530")
+        XCTAssertEqual(BigInt("110022")?.description, "110022")
+        XCTAssertEqual(BigInt("233022")?.description, "233022")
+        XCTAssertEqual(BigInt("433022")?.description, "433022")
         XCTAssertEqual(BigInt("566543")?.description, "566543")
-//        XCTAssertEqual(BigInt("56798416354")?.description, "56798416354")
-//        XCTAssertEqual(BigInt("897312589698768463211189")?.description, "897312589698768463211189")
+        XCTAssertEqual(BigInt("56798416354")?.description, "56798416354")
+        XCTAssertEqual(BigInt("897312589698768463211189")?.description, "897312589698768463211189")
     }
 
 }
