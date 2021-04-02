@@ -12,67 +12,13 @@ import XCTest
 class EquatableTests: XCTestCase {
     
     func testTwoBigIntsAreEqual() {
-        let d1 = BigInt(words: [1, 1, 1], sign: .positive)
-        let d2 = BigInt(words: [1, 1, 1], sign: .positive)
-        
-        XCTAssertEqual(d1.words, d2.words)
-        XCTAssertEqual(d1.sign, d2.sign)
-        XCTAssertEqual(d1, d2)
+        XCTAssertEqual(BigInt(1234), BigInt(1234))
+        XCTAssertEqual(BigInt(-134), BigInt(-134))
+        XCTAssertEqual(BigInt(564654), BigInt(564654))
+        XCTAssertEqual(BigInt(897496541), BigInt(897496541))
+        XCTAssertEqual(BigInt("781653463516548616556"), BigInt("781653463516548616556"))
+        XCTAssertNotEqual(BigInt(564654) + BigInt(1), BigInt(564654))
+        XCTAssertEqual(BigInt(564654) + BigInt(0), BigInt(564654))
     }
-        
-    func testTwoBigIntsAreNotEqualInSign() {
-        let d1 = BigInt(words: [1, 1, 1], sign: .positive)
-        let d2 = BigInt(words: [1, 1, 1], sign: .negative)
-        
-        XCTAssertEqual(d1.words, d2.words)
-        XCTAssertNotEqual(d1.sign, d2.sign)
-        XCTAssertNotEqual(d1, d2)
-    }
-    
-    func testTwoBigIntsAreNotEqualWords() {
-        let d1 = BigInt(words: [1, 1, 1], sign: .positive)
-        let d2 = BigInt(words: [1, 1, 2], sign: .positive)
-        
-        XCTAssertNotEqual(d1.words, d2.words)
-        XCTAssertEqual(d1.sign, d2.sign)
-        XCTAssertNotEqual(d1, d2)
-    }
-
-    func testTwoBigIntsAreNotEqualInSignAndWords() {
-        let d1 = BigInt(words: [1, 1, 1], sign: .positive)
-        let d2 = BigInt(words: [1, 1, 2], sign: .negative)
-        
-        XCTAssertNotEqual(d1.words, d2.words)
-        XCTAssertNotEqual(d1.sign, d2.sign)
-        XCTAssertNotEqual(d1, d2)
-    }
-
-    func testTwoBigIntsAreNotEqualInSignAndDecimalPosition() {
-        let d1 = BigInt(words: [1, 1, 1], sign: .positive)
-        let d2 = BigInt(words: [1, 1, 1], sign: .negative)
-        
-        XCTAssertEqual(d1.words, d2.words)
-        XCTAssertNotEqual(d1.sign, d2.sign)
-        XCTAssertNotEqual(d1, d2)
-    }
-
-    func testTwoBigIntsAreNotEqualInWordsAndDecimalPosition() {
-        let d1 = BigInt(words: [1, 1, 1], sign: .positive)
-        let d2 = BigInt(words: [1, 1, 2], sign: .positive)
-        
-        XCTAssertNotEqual(d1.words, d2.words)
-        XCTAssertEqual(d1.sign, d2.sign)
-        XCTAssertNotEqual(d1, d2)
-    }
-    
-    func testTwoBigIntsAreNotEqual() {
-        let d1 = BigInt(words: [1, 1, 1], sign: .positive)
-        let d2 = BigInt(words: [1, 1, 2], sign: .negative)
-        
-        XCTAssertNotEqual(d1.words, d2.words)
-        XCTAssertNotEqual(d1.sign, d2.sign)
-        XCTAssertNotEqual(d1, d2)
-    }
-
 
 }

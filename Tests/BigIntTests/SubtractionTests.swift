@@ -12,13 +12,12 @@ import XCTest
 class SubtractionTests: XCTestCase {
     
     func testSimpleSubtraction() {
-        let d1 = BigInt(words: [1, 2, 2, 2], sign: .positive)
-        let d2 = BigInt(words: [1, 1, 1, 1], sign: .positive)
+        let d1 = BigInt(33686017)
+        let d2 = BigInt(16843009)
 
         let d3 = d1 - d2
 
-        XCTAssertEqual(d3.words, [0, 1, 1, 1])
-        XCTAssertEqual(d3.sign, .positive)
+        XCTAssertEqual(d3.description, "16843008")
 
     }
     

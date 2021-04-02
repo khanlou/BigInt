@@ -28,8 +28,10 @@ struct BigInt: CustomStringConvertible {
     }
 
     init(_ int: Int) {
-        var parsing = int
+        var parsing = int < 0 ? -int : int
         let max = Int(UInt8.max) + 1
+
+        let sign = int < 0 ? Sign.negative : .positive
 
         var words: [UInt8] = []
         while parsing != 0 {
@@ -38,7 +40,7 @@ struct BigInt: CustomStringConvertible {
             parsing /= max
         }
 
-        self = BigInt(words: words, sign: int < 0 ? .negative : .positive)
+        self = BigInt(words: words, sign: sign)
     }
 
     init?(_ string: String) {

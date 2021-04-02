@@ -12,7 +12,7 @@ import XCTest
 class DescriptionTests: XCTestCase {
 
     func testExample() throws {
-        XCTAssertEqual(BigInt(words: [232, 3], sign: .positive).description, "1000")
+        XCTAssertEqual(BigInt(1000).description, "1000")
     }
 
     func testIntInit() throws {
@@ -20,6 +20,7 @@ class DescriptionTests: XCTestCase {
     }
 
     func testRoundTrip() throws {
+        XCTAssertEqual(BigInt(-54656).description, "-54656")
         XCTAssertEqual(BigInt(1000).description, "1000")
         XCTAssertEqual(BigInt(1200).description, "1200")
         XCTAssertEqual(BigInt(2000).description, "2000")
